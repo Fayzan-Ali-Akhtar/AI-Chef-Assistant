@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+// import axios from 'axios';
 import { Spinner } from 'react-bootstrap';
 
 interface RecipeStepsProps {
@@ -28,30 +28,30 @@ function RecipeSteps({ steps, darkMode }: RecipeStepsProps) {
       try {
         // Example: using environment variables for Hugging Face
         // For Vite, you might use import.meta.env.VITE_HUGGINGFACE_API_KEY
-        const HF_API_KEY = process.env.REACT_APP_HUGGINGFACE_API_KEY;
-        const HF_MODEL_URL = process.env.REACT_APP_HUGGINGFACE_MODEL_URL;
+        // const HF_API_KEY = process.env.REACT_APP_HUGGINGFACE_API_KEY;
+        // const HF_MODEL_URL = process.env.REACT_APP_HUGGINGFACE_MODEL_URL;
 
-        const promises = steps.map((step) =>
-          axios.post(HF_MODEL_URL as string, {
-            inputs: step
-          }, {
-            headers: {
-              Authorization: `Bearer ${HF_API_KEY}`
-            },
-            responseType: 'arraybuffer'
-          }).then((response) => {
-            const base64 = btoa(
-              new Uint8Array(response.data).reduce(
-                (data, byte) => data + String.fromCharCode(byte),
-                ''
-              )
-            );
-            return `data:image/jpeg;base64,${base64}`;
-          })
-        );
+        // const promises = steps.map((step) =>
+        //   axios.post(HF_MODEL_URL as string, {
+        //     inputs: step
+        //   }, {
+        //     headers: {
+        //       Authorization: `Bearer ${HF_API_KEY}`
+        //     },
+        //     responseType: 'arraybuffer'
+        //   }).then((response) => {
+        //     const base64 = btoa(
+        //       new Uint8Array(response.data).reduce(
+        //         (data, byte) => data + String.fromCharCode(byte),
+        //         ''
+        //       )
+        //     );
+        //     return `data:image/jpeg;base64,${base64}`;
+        //   })
+        // );
 
-        const imageUrls = await Promise.all(promises);
-        setImages(imageUrls);
+        // const imageUrls = await Promise.all(promises);
+        // setImages(imageUrls);
       } catch (error) {
         console.error('Failed to fetch images', error);
         setRetryCount((prev) => prev + 1);
