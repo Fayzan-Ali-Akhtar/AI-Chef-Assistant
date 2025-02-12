@@ -26,6 +26,7 @@ function RecipeSteps({ steps, darkMode }: RecipeStepsProps) {
       setLoading(true);
 
       try {
+        setImages([]); // Reset images to null while fetching !!!!!Remove this
         // Example: using environment variables for Hugging Face
         // For Vite, you might use import.meta.env.VITE_HUGGINGFACE_API_KEY
         // const HF_API_KEY = process.env.REACT_APP_HUGGINGFACE_API_KEY;
