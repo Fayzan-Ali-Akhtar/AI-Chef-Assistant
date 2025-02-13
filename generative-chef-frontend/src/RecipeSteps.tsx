@@ -1,75 +1,79 @@
 import { useEffect, useState } from 'react';
-// import axios from 'axios';
 import { Spinner } from 'react-bootstrap';
+import OpenAI from 'openai';
+
+interface RecipeInstruction {
+  step: number;
+  title: string;
+  details: string[];
+}
 
 interface RecipeStepsProps {
-  steps: string[];
+  instructions: RecipeInstruction[];
   darkMode: boolean;
 }
 
-function RecipeSteps({ steps, darkMode }: RecipeStepsProps) {
+function RecipeSteps({ instructions, darkMode }: RecipeStepsProps) {
   const [images, setImages] = useState<Array<string | null>>(
-    new Array(steps.length).fill(null)
+    new Array(instructions.length).fill(null)
   );
   const [loading, setLoading] = useState<boolean>(false);
-  const [retryCount, setRetryCount] = useState<number>(0);
 
   useEffect(() => {
-    // If there are no steps, no need to fetch images
-    if (steps.length === 0) return;
+    if (instructions.length === 0) return;
 
     const fetchImages = async () => {
-      if (retryCount >= 3) {
-        console.error('Failed to fetch images after 3 attempts.');
-        return;
-      }
       setLoading(true);
 
       try {
-        setImages([]); // Reset images to null while fetching !!!!!Remove this
-        // Example: using environment variables for Hugging Face
-        // For Vite, you might use import.meta.env.VITE_HUGGINGFACE_API_KEY
-        // const HF_API_KEY = process.env.REACT_APP_HUGGINGFACE_API_KEY;
-        // const HF_MODEL_URL = process.env.REACT_APP_HUGGINGFACE_MODEL_URL;
+        // 1) Initialize the OpenAI client
+        const openai = new OpenAI({
+          apiKey: import.meta.env.VITE_OPENAI_API_KEY || '', 
+        });
 
-        // const promises = steps.map((step) =>
-        //   axios.post(HF_MODEL_URL as string, {
-        //     inputs: step
-        //   }, {
-        //     headers: {
-        //       Authorization: `Bearer ${HF_API_KEY}`
-        //     },
-        //     responseType: 'arraybuffer'
-        //   }).then((response) => {
-        //     const base64 = btoa(
-        //       new Uint8Array(response.data).reduce(
-        //         (data, byte) => data + String.fromCharCode(byte),
-        //         ''
-        //       )
-        //     );
-        //     return `data:image/jpeg;base64,${base64}`;
-        //   })
-        // );
+        // 2) Generate images SEQUENTIALLY to avoid rate limit issues
+        const newImages: Array<string | null> = [];
 
-        // const imageUrls = await Promise.all(promises);
-        // setImages(imageUrls);
+        for (let i = 0; i < instructions.length; i++) {
+          const instr = instructions[i];
+          const prompt = `A detailed photo illustrating this cooking step: ${instr.title}\n\nUse as little detail rewriting as possible.`;
+
+          // Each request: model, prompt, size
+          const response = await openai.images.generate({
+            model: 'dall-e-3',
+            prompt,
+            n: 1,
+            size: '512x512', // can be 1024x1024 or other sizes
+          });
+
+          if (response.data?.length && response.data[0].url) {
+            newImages[i] = response.data[0].url;
+          } else {
+            newImages[i] = null;
+          }
+
+          // Optionally add a short delay (e.g., 1 second) between requests
+          // to reduce chance of 429
+          await new Promise((res) => setTimeout(res, 1000));
+        }
+
+        setImages(newImages);
       } catch (error) {
-        console.error('Failed to fetch images', error);
-        setRetryCount((prev) => prev + 1);
+        console.error('Error fetching images from OpenAI:', error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchImages();
-  }, [steps, retryCount]);
+  }, [instructions]);
 
   return (
     <div>
-      {steps.length > 0 && <h2 className="mb-4">Recipe Steps</h2>}
-      {steps.map((step, index) => (
+      <h3 className="mb-4">Instructions</h3>
+      {instructions.map((instr, index) => (
         <div
-          key={index}
+          key={instr.step}
           className={`
             card mt-3 border border-muted 
             animate__animated animate__fadeInUp 
@@ -77,23 +81,38 @@ function RecipeSteps({ steps, darkMode }: RecipeStepsProps) {
           `}
           style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
         >
-          <div className="card-body text-center">
-            <h3 className="card-title">Step {index + 1}</h3>
-            <p className="card-text fs-5">{step}</p>
+          <div className="card-body">
+            <h4 className="card-title">
+              Step {instr.step}: {instr.title}
+            </h4>
+            {instr.details.map((detail, i) => (
+              <p key={i} className="card-text fs-6 mb-1">
+                {detail}
+              </p>
+            ))}
 
-            {loading ? (
-              <>
-                <p>Loading Image...</p>
-                <Spinner animation="border" variant="primary" />
-              </>
-            ) : (
-              <img
-                src={images[index] || 'https://via.placeholder.com/350x200'}
-                alt={`Visualization for step ${index + 1}`}
-                className="img-fluid mx-auto d-block"
-                style={{ maxWidth: '350px' }}
-              />
-            )}
+            <div className="text-center mt-3">
+              {loading ? (
+                <>
+                  <p>Generating Image...</p>
+                  <Spinner animation="border" variant="primary" />
+                </>
+              ) : images[index] ? (
+                <img
+                  src={images[index]!}
+                  alt={`Visualization for step ${instr.step}`}
+                  className="img-fluid mx-auto d-block"
+                  style={{ maxWidth: '300px', borderRadius: '8px' }}
+                />
+              ) : (
+                <img
+                  src="https://via.placeholder.com/300"
+                  alt="Placeholder"
+                  className="img-fluid mx-auto d-block"
+                  style={{ maxWidth: '300px', borderRadius: '8px' }}
+                />
+              )}
+            </div>
           </div>
         </div>
       ))}
