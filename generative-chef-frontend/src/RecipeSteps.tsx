@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
-import OpenAI from 'openai';
 
 interface RecipeInstruction {
   step: number;
@@ -25,44 +24,54 @@ function RecipeSteps({ instructions, darkMode }: RecipeStepsProps) {
     const fetchImages = async () => {
       setLoading(true);
 
-      try {
-        // 1) Initialize the OpenAI client
-        const openai = new OpenAI({
-          apiKey: import.meta.env.VITE_OPENAI_API_KEY || '', 
-        });
+      // Your Hugging Face Spaces or local backend
+      const BASE_URL = import.meta.env.VITE_DEPLOYED_BACKEND_URL 
+        || "https://sprojvln-flask-ai-chef.hf.space";
 
-        // 2) Generate images SEQUENTIALLY to avoid rate limit issues
-        const newImages: Array<string | null> = [];
+      const newImages: Array<string | null> = [];
 
-        for (let i = 0; i < instructions.length; i++) {
-          const instr = instructions[i];
-          const prompt = `A detailed photo illustrating this cooking step: ${instr.title}\n\nUse as little detail rewriting as possible.`;
+      for (let i = 0; i < instructions.length; i++) {
+        const instr = instructions[i];
+        const stepTitle = instr.title;
 
-          // Each request: model, prompt, size
-          const response = await openai.images.generate({
-            model: 'dall-e-3',
-            prompt,
-            n: 1,
-            size: '512x512', // can be 1024x1024 or other sizes
+        try {
+          // Call /generate-image with the step title
+          const url = `${BASE_URL}-image`;
+          const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: stepTitle }),
           });
 
-          if (response.data?.length && response.data[0].url) {
-            newImages[i] = response.data[0].url;
-          } else {
+          if (!response.ok) {
+            console.error(`Failed to fetch image for step ${instr.step}:`, response.statusText);
             newImages[i] = null;
+          } else {
+            // Now we get the entire OpenAI response
+            const data = await response.json();
+            
+            // Debugging: see the entire response
+            console.log("OpenAI full response for step", instr.step, data);
+            
+            // If the data has "data" array with a "url" inside:
+            // For DALL·E: data.data[0].url
+            if (data.data && data.data[0] && data.data[0].url) {
+              newImages[i] = data.data[0].url;
+            } else {
+              newImages[i] = null;
+            }
           }
-
-          // Optionally add a short delay (e.g., 1 second) between requests
-          // to reduce chance of 429
-          await new Promise((res) => setTimeout(res, 1000));
+        } catch (error) {
+          console.error(`Error fetching image for step ${instr.step}:`, error);
+          newImages[i] = null;
         }
 
-        setImages(newImages);
-      } catch (error) {
-        console.error('Error fetching images from OpenAI:', error);
-      } finally {
-        setLoading(false);
+        // Optional short delay between steps
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
+
+      setImages(newImages);
+      setLoading(false);
     };
 
     fetchImages();
