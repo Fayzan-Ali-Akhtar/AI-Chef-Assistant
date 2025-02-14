@@ -43,11 +43,19 @@ def generate_from_model():
 
     # Constructing prompt for LLM
     prompt_text = f"""
-    You are a professional chef assistant. Your task is to generate a structured JSON object containing a detailed cooking recipe using the following ingredients: {', '.join(ingredients_list)}.
+    You are a professional chef assistant. Your task is to generate a structured JSON object containing a **detailed and concise** cooking recipe using the following ingredients: {', '.join(ingredients_list)}.
+
     ### **Instructions:**
+    - Only include **essential steps** in the instructions.
+    - **Avoid unnecessary, redundant, or trivial steps**, such as:
+    - "Gather all ingredients"
+    - "Turn on the stove"
+    - "Take a pan from the shelf"
+    - Merge **minor steps** into relevant steps instead of listing them separately.
+    - Ensure **each step adds value** and progresses the cooking process logically.
     - Follow the exact JSON structure provided below.
     - Do **NOT** include any extra text, explanations, or comments—only return a valid JSON object.
-    - Ensure the generated JSON is **well-formatted** and follows the exact structure.
+
     ### **Example JSON Format (Strictly Follow This):**
     {{
         "recipe_name": "Delicious Dish Name",
@@ -102,14 +110,6 @@ def generate_from_model():
                     "Step 5 detail line 1.",
                     "Step 5 detail line 2."
                 ]
-            }},
-            {{
-                "step": 6,
-                "title": "Step 6 Title",
-                "details": [
-                    "Step 6 detail line 1.",
-                    "Step 6 detail line 2."
-                ]
             }}
         ],
         "tips_and_variations": [
@@ -129,9 +129,12 @@ def generate_from_model():
             "sugar": "XXg"
         }}
     }}
+
     Now, generate a JSON object for a recipe using these ingredients: {', '.join(ingredients_list)}.
+    Ensure that **only meaningful and essential steps are included.**
     Only return a valid JSON object without any extra text.
     """
+
 
 
     try:
