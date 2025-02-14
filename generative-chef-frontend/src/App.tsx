@@ -6,6 +6,12 @@ import RecipeSteps from "./RecipeSteps"
 import LiquidProgress from "./components/LiquidProgress"
 import { FaGithub } from "react-icons/fa"
 
+type RecipeInstruction = {
+  step: number
+  title: string
+  details: string[]
+}
+
 // Types remain the same...
 type RecipeData = {
   recipe_name: string
@@ -14,7 +20,7 @@ type RecipeData = {
   cook_time: string
   total_time: string
   ingredients: string[]
-  instructions: string[]
+  instructions: RecipeInstruction[] 
   tips_and_variations: string[]
   nutrition_info_per_serving?: {
     calories: string

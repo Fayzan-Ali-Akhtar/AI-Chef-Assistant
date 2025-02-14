@@ -10,8 +10,8 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 // Import Google Fonts
-import "@fontsource/poppins"
-import "@fontsource/playfair-display"
+// import "@fontsource/poppins"
+// import "@fontsource/playfair-display"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
