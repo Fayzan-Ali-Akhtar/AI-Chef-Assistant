@@ -7,19 +7,19 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Inter", sans-serif;
-  background: #2a2a3c; /* Darker background */
-  color: #fff;
+  background: #f0f0f0; /* Changed from #2a2a3c to light grey */
+  color: #2a2a3c; /* Updated text color for better contrast */
   min-height: 100vh;
 }
 
 /* Main container styling */
 .main-card {
-  background: rgba(41, 37, 66, 0.9); /* More opaque background */
+  background: rgba(41, 37, 66, 0.95); /* Made slightly more opaque */
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px !important;
   padding: 1.5rem !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important; /* Adjusted shadow for light background */
   margin: 1rem auto !important;
   max-width: 800px !important;
   width: calc(100% - 2rem) !important;
@@ -48,6 +48,60 @@ body {
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* App header styling */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+/* Info button styling */
+.info-button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.7) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50% !important;
+  width: 36px !important;
+  height: 36px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.3s ease !important;
+}
+
+.info-button:hover {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* Info content styling */
+.info-content {
+  background: rgba(41, 37, 66, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  color: white !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+  margin-top: 0.5rem;
+}
+
+.info-content h3 {
+  color: #c850c0 !important;
+}
+
+.info-content p,
+.info-content li {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 /* Input styling */
@@ -393,6 +447,75 @@ body {
   .btn {
     width: 100%;
     margin-bottom: 0.5rem;
+  }
+  .app-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .info-button {
+    position: relative;
+    transform: none;
+    margin-top: 0.5rem;
+  }
+}
+
+/* ProjectInfo styling */
+.info-button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: none !important;
+  border-radius: 50% !important;
+  width: 36px !important;
+  height: 36px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.3s ease !important;
+}
+
+.info-button:hover,
+.info-button:focus {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.project-info-popover {
+  max-width: 300px;
+  background-color: rgba(41, 37, 66, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+}
+
+.project-info-popover .popover-header {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #c850c0 !important;
+  font-weight: 600;
+}
+
+.project-info-popover .popover-body {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.project-info-popover .popover-body ul {
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.project-info-popover .popover-body li {
+  margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+  .info-button {
+    position: static;
+    transform: none;
+    margin-top: 10px;
   }
 }
 

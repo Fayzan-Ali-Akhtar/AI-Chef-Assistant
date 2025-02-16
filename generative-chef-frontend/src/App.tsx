@@ -4,6 +4,7 @@ import axios from "axios"
 import { Container, Button, InputGroup, FormControl, ListGroup, Spinner, Row, Col, Toast } from "react-bootstrap"
 import RecipeSteps from "./RecipeSteps"
 import LiquidProgress from "./components/LiquidProgress"
+import ProjectInfo from "./components/ProjectInfo"
 import { FaGithub } from "react-icons/fa"
 
 type RecipeInstruction = {
@@ -112,7 +113,10 @@ function App() {
     <div className="min-vh-100 py-2 px-2 py-md-4 px-md-4">
       <Container fluid="sm">
         <div className="main-card">
-          <h1 className="app-title">✨ Generative AI Chef</h1>
+          <div className="app-header">
+            <h1 className="app-title">✨ Generative AI Chef</h1>
+            <ProjectInfo />
+          </div>
           <p className="app-description">
             Enter ingredients one at a time and press <strong>"Get Recipe"</strong> to see how you can cook them into a
             delicious dish!
@@ -256,6 +260,20 @@ function App() {
       {/* GitHub Contributors Section */}
       <footer className="text-center mt-5">
         <h5>👨‍💻 Made with ❤️ by Our Team</h5>
+
+        {/* GitHub Project Link */}
+        <div className="mb-3">
+          <a
+            href="https://github.com/Fayzan-Ali-Akhtar/AI-Chef-Assistant"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-dark d-flex align-items-center justify-content-center gap-2"
+            style={{  color: "#fff", width: "60%", margin: "auto" }}
+          >
+            <FaGithub size={"1.5rem"} /> Project GitHub
+          </a>
+        </div>
+
         <ul className="list-unstyled">
           {contributors.map((contributor, index) => (
             <li key={index} className="my-2">
