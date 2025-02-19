@@ -13,6 +13,8 @@ tags:
 
 # 🍳 Generative AI Chef
 
+🔗 **Live Demo**: [AI Chef Assistant](https://ai-chef-assistant.netlify.app/)
+
 Welcome to **Generative AI Chef**, a cutting-edge application that combines the power of **Grok AI** and **DALL-E** to revolutionize your cooking experience. Whether you're a professional chef or a home cook, this app provides personalized recipe suggestions, step-by-step visual guides, and nutritional information to elevate your culinary skills.
 
 ## ✨ Features
