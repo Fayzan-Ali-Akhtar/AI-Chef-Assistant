@@ -51,7 +51,7 @@ export default function ProjectInfo() {
             </p>
             <ul>
               <li>
-                Powered by <span style={{ color: "#4CAF50", fontWeight: "bold" }}>Grok AI</span> on a Flask backend
+                Powered by <span style={{ color: "#4CAF50", fontWeight: "bold" }}>Groq AI</span> on a Flask backend
                 (hosted on <span style={{ color: "#FF9800", fontWeight: "bold" }}>Hugging Face Spaces</span>)
               </li>
               <li>Generates detailed recipes from your ingredients</li>

@@ -7,7 +7,7 @@ tags:
   - react
   - AI
   - cooking
-  - Grok AI
+  - Groq AI
   - DALL-E
 ---
 
@@ -15,11 +15,11 @@ tags:
 
 🔗 **Live Demo**: [AI Chef Assistant](https://ai-chef-assistant.netlify.app/)
 
-Welcome to **Generative AI Chef**, a cutting-edge application that combines the power of **Grok AI** and **DALL-E** to revolutionize your cooking experience. Whether you're a professional chef or a home cook, this app provides personalized recipe suggestions, step-by-step visual guides, and nutritional information to elevate your culinary skills.
+Welcome to **Generative AI Chef**, a cutting-edge application that combines the power of **Groq AI** and **DALL-E** to revolutionize your cooking experience. Whether you're a professional chef or a home cook, this app provides personalized recipe suggestions, step-by-step visual guides, and nutritional information to elevate your culinary skills.
 
 ## ✨ Features
 
-- 🤖 **AI-Powered Recipe Generation**: Get detailed recipes tailored to your ingredients using **Grok AI**.
+- 🤖 **AI-Powered Recipe Generation**: Get detailed recipes tailored to your ingredients using **Groq AI**.
 - 🖼️ **Step-by-Step Visual Guides**: Utilizes **DALL-E** to generate custom images for each step of the recipe, making it easier to follow along.
 - 📊 **Nutritional Information**: Provides comprehensive nutritional details per serving, including calories, protein, fat, and carbohydrates.
 - 📚 **Ingredient Management**: Add or remove ingredients dynamically to generate new recipes.
