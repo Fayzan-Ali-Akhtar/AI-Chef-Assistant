@@ -45,13 +45,13 @@ export default function ProjectInfo() {
         <Popover id="popover-project-info" className="project-info-popover">
           <Popover.Header as="h3">About This Project</Popover.Header>
           <Popover.Body>
-            <p>
-              Welcome to Generative AI Chef! This app combines the power of multiple AI technologies to
-              create a unique cooking experience:
-            </p>
+          <p>
+            Welcome to Generative AI Chef! This app leverages <strong>Llama 3.3 70B on Groq Cloud</strong> alongside other AI technologies to
+            create a unique cooking experience:
+          </p>
             <ul>
               <li>
-                Powered by <span style={{ color: "#4CAF50", fontWeight: "bold" }}>Groq AI</span> on a Flask backend
+              Powered by <span style={{ color: "#4CAF50", fontWeight: "bold" }}>Llama 3.3 70B on Groq Cloud</span> on a Flask backend
                 (hosted on <span style={{ color: "#FF9800", fontWeight: "bold" }}>Hugging Face Spaces</span>)
               </li>
               <li>Generates detailed recipes from your ingredients</li>
